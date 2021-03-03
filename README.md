@@ -1,2 +1,2 @@
-# LInux-os-program
+# Linux-os-program
 activities
