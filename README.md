@@ -1,0 +1,2 @@
+# LInux-os-program
+activities
