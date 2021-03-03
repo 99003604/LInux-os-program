@@ -8,15 +8,10 @@ int main()
 
     char ch;
     int chara, w, l;
-
-
-    /* Input path of files to merge to third file */
     printf("Enter source file path: ");
     scanf("%s", path);
-
-    /* Open source files in 'read' mode */
     file = fopen(path, "read");
-    /* Check if file opened successfully */
+  
     if (file == NULL)
     {
         printf("\nUnable to open file.\n");
@@ -41,7 +36,6 @@ int main()
         if (ch == ' ' || ch == '\t' || ch == '\n' || ch == '\0')
             w++;
     }
-    /* Increment words and lines for last word */
     if (chara > 0)
     {
         w++;
@@ -53,9 +47,6 @@ int main()
     printf("Total chara= %d\n", chara);
     printf("Total w   = %d\n", w);
     printf("Total l   = %d\n", l);
-
-
-    /* Close files to release resources */
     fclose(file);
 
     return 0;
