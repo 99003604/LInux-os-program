@@ -5,7 +5,7 @@
 #include <sys/types.h> 
 #include <unistd.h> 
   
-// function declaration 
+//function declaration 
 void sighup(); 
 void sigint(); 
 void sigquit(); 
@@ -14,23 +14,18 @@ void sigquit();
 void main() 
 { 
     int pid; 
-  
-    /* get child process */
     if ((pid = fork()) < 0) 
     { 
         perror("fork"); 
         exit(1); 
     } 
-  
-    if (pid == 0) 
+     if (pid == 0) 
     { 
         /* child */
         signal(SIGHUP, sighup); 
         signal(SIGINT, sigint); 
         signal(SIGQUIT, sigquit); 
-        for (;;) 
-        ; 
-        /* loop for ever */
+        for (;;);
     } 
   
     else 
