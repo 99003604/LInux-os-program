@@ -1,4 +1,4 @@
-#include <iostream> 
+#include <stdio.h> 
 #include <pthread.h> 
 
 #define MAX 10 
@@ -23,6 +23,6 @@ int main()
         pthread_join(threads[k], NULL);   
     for (int m = 0; m< MAX_THREAD; m++) 
         total += sum[m]; 
-    cout << "sum of array is " << total << endl; 
+    printf("sum of array is ); 
     return 0; 
 } 
