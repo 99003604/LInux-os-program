@@ -1,20 +1,22 @@
+#include <stdio.h>
 #include <pthread.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <semaphore.h>
 #define MaxItms 5 
-#define BufferSize 5 
+#define Buffer_Size 5 
 
-sem_t emty;
+sem_t empty;
 sem_t full;
 int w = 0;
 int r = 0;
 int itm=0;
-int buffer[BufferSize];
+int buffer[Buffer_Size];
 void *prod(void *po)
 {   
-    if(w==BufferSize-1)
+    if(w==Buffer_Size-1)
     {
+        //stack producer
+        
         printf("Stack of producer is full, can't write to it now \n");
     }
     else
@@ -25,15 +27,16 @@ void *prod(void *po)
         sem_wait(&empty);
         buffer[w] = item;
         printf(" Insert Item %d in Producer %d at %d: ", buffer[w], *((int *)po), w);
-        w = (w + 1) % BufferSize;     
+        w = (w + 1) % Buffer_Size;     
         sem_post(&full);
      }
     }
 }
 void *cons(void *co)
 {   
-    if(r==BufferSize-1)
+    if(r==Buffer_Size-1)
     {
+        // stack consumer
         printf("Stack of consumer contains nothing, can't read from it now\n");
     }
     else
@@ -42,9 +45,9 @@ void *cons(void *co)
      for(int k = 0; k < MaxItems; k++) 
      {
         sem_wait(&full);
-        itm = buffer[r];
+        itm = buffer[r]; // remove the consumer item
         printf("Remove Item %d from Consumer %d from %d: ", itm, *((int *)co), r); 
-        r = (r + 1) % BufferSize;     
+        r = (r + 1) % Buffer_Size;     
         sem_post(&empty);
      }
     }
@@ -53,23 +56,24 @@ void *cons(void *co)
 int main()
 {   
     pthread_t producer[5],consumer[5];
-    sem_init(&empty,0,BufferSize);
+    sem_init(&empty,0,Buffer_Size);
     sem_init(&full,0,0);
-    int a[5] = {1,2,3,4,5};
-    for(int l = 0; l < 10; l++) 
+    int c[5] = {1,2,3,4,5};
+    for(int l = 0; l < 5; l++) 
     {
- // thread ctreated in nproducer//
-        pthread_create(&producer[l], NULL, (void *)prod, (void *)&a[l]);
+ // pthread ctreated in producer
+        pthread_create(&producer[l], NULL, (void *)prod, (void *)&c[l]);
     }
-    for(int l = 0; l < 10; l++) 
+    for(int l = 0; l < 5; l++) 
     { // pthread creatred in conusmer
-        pthread_create(&consumer[l], NULL, (void *)cons, (void *)&a[l]);
+        pthread_create(&consumer[l], NULL, (void *)cons, (void *)&c[l]);
     }
-    for(int l = 0; l < 10; l++) 
+    // initilization of the part
+    for(int l = 0; l < 5; l++) 
     {
         pthread_join(producer[l], NULL);
     }
-    for(int l = 0; l < 10; l++) 
+    for(int l = 0; l < 5; l++) 
     {
         pthread_join(consumer[l], NULL);
     }
