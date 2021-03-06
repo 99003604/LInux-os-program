@@ -31,7 +31,7 @@ void* pop(void* pv) //producer
  sem_wait(qs);
 sem_wait(ps);
 
-    int temp=0;
+    int temp=0;// temp equal to zero initilization
    
    // pthread_mutex_lock(&m1);
 if(m_top!=-1){
@@ -51,27 +51,25 @@ int main()
     int j,value;
 pthread_t pt1,pt2; //thread handle
 
-//        ps=sem_open("/s1",O_CREAT, 0666, 1);
+//ps=sem_open("/s1",O_CREAT, 0666, 1);
 //qs=sem_open("/s2",O_CREAT, 0666, 0);
    
-    for(j=0;j<10;j++){
+    for(j=0;j<10;j++)
+    {
    //pthread_mutex_lock(&m1);
            pthread_create(&pt1,NULL,push,(void*)j);
-           
     }
-for(j=0;j<10;j++){
-
-
-         pthread_create(&pt2,NULL,pop,NULL);
-       
-         
-     }
+for(j=0;j<10;j++)
+{
+    pthread_create(&pt2,NULL,pop,NULL);
+ }
 
 pthread_join(pt1,NULL);
 pthread_join(pt2, NULL );
-   sem_unlink("s1");
+sem_unlink("s1");
 sem_unlink("s2");
    // pthread_mutex_destroy(&m1);
+    
 //printf("VAlue:%d",value);
 return 0; //exit(0);
 
