@@ -1,5 +1,6 @@
-Build: sol1.c
-	gcc sol1.c -lpthread 
-
-run:Build
-	./a.out
+src = sol1.c
+project = sol1.c -lpthread
+$(project): $(src)
+	gcc $^ -o $@
+run: $(project)
+	./$^
